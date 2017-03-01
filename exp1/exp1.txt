@@ -1,0 +1,35 @@
+cat-sends file content to standard output
+e.g cat abc.c
+o/p: it would show the full content in abc.c
+
+cd-change directory
+e.g: cd Desktop/
+
+1) cd /home
+	to go to home directory
+2.) cd httpd
+	means it would go to /home/httpd
+	because the default current directory would be /home
+3.) cd ..
+	move to  parent directory from the current directory
+4.) cd ~
+	move to home directory
+	
+cp 
+	copy the element from one path to another
+dd
+	write a bootable disk
+ln
+	crate a symbolic link 
+locate
+	database driven file locator
+ls
+	ls of files in current directory
+mv
+	to move file from one path to another
+pwd
+	to show present working directory
+logout
+	logs current user off the system
+shutdown
+	shuts the system
