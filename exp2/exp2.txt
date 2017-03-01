@@ -1,0 +1,392 @@
+-----------Redirection----------
+
+In Linux is is possible  to send output to file or read input from file
+
+ls
+	This command gives output to screen
+
+	To send output to file of ls command 
+		ls >filename
+	
+		OUTPUT:
+			exp2.txt
+			test.txt
+			//FILE EXISTING IN THAT DIRECTORY
+Main direction symbols are >,>>,<
+
+
+i)
+	linux-command>filename
+		It result the linux-commands result to the file.If file exist it will overwritten else new file created
+
+
+ii)	linux-command>>filename
+		To output Linux Command  result .If file exist , it will be opened and new information will be added at the end
+ 		INPUT:
+				date >> test.txt
+		OUTPUT:
+			exp2.txt
+			test.txt
+			Wed Mar  1 10:52:43 IST 2017
+
+iii)	linux-command <filename
+		To take input to linux command from file 	
+
+			cat < test.txt
+
+
+--------pipes------
+
+	-r sort in reverse order 
+	ls >file_list
+	sort -r file_list
+	
+	Solution is Pipelining
+	
+	Shell feature  that connect a string  of commands.
+
+	stdout of the first command is sent to stdin of the second command.
+	In this case send the stdout of ls to the stdin of sort. use '|' to create a pipe 
+
+	ls | sort -r
+
+	OUTPUT:
+		test.txt
+	        exp2.txt
+
+	
+	you can pipe more than 2 command
+	
+	ls | sort -r | head -1
+		
+	OUTPUT:
+		test.txt
+	
+	input the first line of the input stream
+	
+
+---------filter-----------
+
+	linux command accepts its input data from the standard input and output on standard output is known as filter
+	
+	It works with linux pipe
+	
+	command1 | command2
+	command file.txt ! command2
+	command1 args < input.txt | command2
+	
+	where command2 is filter
+	
+	e.g
+	sort < sname | uniq >u_sname
+
+	
+	The uniq command is filter, which takes its input from the sort command and passes
+	output as input to uniq command; Then uniq command output is redirected to
+	"u_sname" file.
+
+--------JOB CONTROL--------
+	
+	when you execute a unix shell script or command that take a long time you can it background
+
+	Executing background job
+
+	find / -ctime -1 > /tmp/changed-file-list.txt &
+
+	//Following example finds all the files under root file system that changed within the last 24
+	hours.
+
+	#find / -ctime -1 > /tmp/changed-file-list.txt
+	# [CTRL-Z]
+	[2]+ Stopped
+	find / -ctime -1 > /tmp/changed-file-list.txt
+	# bg
+	Sending the current foreground job to the background using CTRL-Z
+	and bg command
+
+
+	viewing the background job
+
+	jobs
+
+	# jobs
+	[1]
+	Running
+	[2]- Running
+	[3]+ Done
+	bash download-file.sh &
+	evolution &
+	nautilus .
+	
+	Taking a background to the foreground
+	
+	fg
+	
+	For a particular job,
+
+	fg %2 //means it would take the second background job to foreground
+
+	To kill a specific job
+	
+	kill %2
+
+-----------File ownership------------------
+	
+	to know the permission
+
+	ls -l
+
+	to change the ownership of the group of a particular directory
+
+	chown root tmpfile
+
+	chown himanshu:friends tmpfile
+
+------------------File permission-----------------
+
+	read:to read a file(4)
+	write:to write a file(2)
+	execute: to execute a file(1)
+
+	types of users:
+	u-owners
+	g-groups
+	o or a -ALl user
+
+
+	changing permission
+	chmod (a,u,g,o) (+,-) (r,w,x) filenames
+	
+
+-------File system Hierachy---------------=
+
+	1) The /boot/ Directory
+The /boot/ directory contains static files required to boot the system, such as the Linux
+kernel. These files are essential for the system to boot properly.
+2) The /dev/ Directory
+
+The /dev/ directory contains file system entries which represent devices that are attached
+to the system. These files are essential for the system to function properly.
+3.) The /etc/ Directory
+
+The /etc/ directory is reserved for configuration files that are local to the machine. No
+binaries are to be put in /etc/. Any binaries that were once located in /etc/ should be
+placed into /sbin/ or /bin/.
+ The X11/ and skel/ directories are subdirectories of the /etc/ directory.
+ The /etc/X11/ directory is for X Window System configuration files such as XF86Con-
+fig.
+
+The /etc/skel/ directory is for "skeleton" user files, which are used to populate a home
+directory when a user is first created.
+4.) The /lib/ Directory
+
+The /lib/ directory should contain only those libraries needed to execute the binaries in
+/bin/
+
+and /sbin/.
+These shared library images are particularly important for booting the system and execut-
+ing commands within the root file system.
+5.) The /mnt/ Directory
+
+The /mnt/ directory is for temporarily mounted file systems, such as CD-ROMs and 3.5
+diskettes.
+6. ) The /opt/ Directory
+ The /opt/ directory provides storage for large, static application software packages.
+ A package placing files in the /opt/ directory creates a directory bearing the same name as
+the package. This directory, in turn, holds files that otherwise would be scattered through-
+out the file system, giving the system administrator an easy way to determine the role of
+each file within a particular package.
+
+For example, if sample is the name of a particular software package located within the /opt/
+directory, then all of its files are placed in directories inside the /opt/sample/ directory, such
+as /opt/sample/bin/ for binaries and /opt/sample/man/ for manual pages.
+
+Large packages that encompass many different sub-packages, each of which accomplish
+a particular task, are also located in the /opt/ directory, giving that large package a way to
+organize itself. In this way, our sample package may have different tools that each go in
+their own sub-directories, such as /opt/sample/tool1/ and /opt/sample/tool2/, each of which can
+have their own bin/, man/, and other similar directories.
+7.) The /proc/ Directory
+
+The /proc/ directory contains special files that either extract information from or send
+information to the kernel.
+
+Due to the great variety of data available within /proc/ and the many ways this directory
+can be used to communicate with the kernel, an entire chapter has been devoted to the
+subject.
+8. ) The /sbin/ Directory
+
+The /sbin/ directory stores executables used by the root user. The executables in /sbin/
+are only used at boot time and perform system recovery operations. Of this directory, the
+FHS says:
+
+/sbin
+contains binaries essential for booting, restoring, recovering, and/or repair-
+ing the system in addition to the binaries in /bin. Programs executed after /usr/
+is known to be mounted (when there are no problems) are generally placed into
+/usr/sbin.
+Locally-installed system administration programs should be placed
+into /usr/local/sbin.
+9.) The /usr/ Directory
+ The /usr/ directory is for files that can be shared across multiple machines. The /usr/
+directory is often on its own partition and is mounted read-only. At minimum, the
+following directories should be subdirectories of /usr/:
+/usr
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+bin/
+dict/
+doc/
+etc/
+games/
+include/
+kerberos/
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+lib/
+libexec/
+local/
+sbin/
+share/
+src/
+tmp -> ../var/tmp/
+X11R6/
+10.) The /usr/local/ Directory
+
+The /usr/local hierarchy is for use by the system administrator when installing software
+locally. It needs to be safe from being overwritten when the system software is updated. It
+may be used for programs and data that are shareable among a group of hosts, but not
+found in /usr.
+
+The /usr/local/ directory is similar in structure to the /usr/ directory. It has the
+following subdirectories, which are similar in purpose to those in the /usr/ directory:
+/usr/local
+|- bin/
+|- doc/
+|- etc/
+|- games/
+|- include/
+|- lib/
+|- libexec/
+|- sbin/
+|- share/
+|- src/
+
+For instance, if the /usr/ directory is mounted as a read-only NFS share from a remote
+host, it is still possible to install a package or program under the /usr/local/ directory.
+11.) The /var/ Directory
+
+Since the FHS requires Linux to mount /usr/ as read-only, any programs that write log files
+or need spool/ or lock/ directories should write them to the /var/ directory.
+
+/var/ is for variable data files. This includes spool
+directories and files, administrative and
+logging data, and transient and temporary files.
+
+Below are some of the directories found within the /var/ directory:
+/var
+|-
+|-
+|-
+|-
+account/
+arpwatch/
+cache/
+crash/
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|-
++-
+|-
+|-
+|-
+|-
+db/
+empty/
+ftp/
+gdm/
+kerberos/
+lib/
+local/
+lock/
+log/
+mail -> spool/mail/
+mailman/
+named/
+nis/
+opt/
+preserve/
+run/
+spool/
+|- at/
+|- clientmqueue/
+|- cron/
+|- cups/
+|- lpd/
+|- mail/
+|- mqueue/
+|- news/
+|- postfix/
+|- repackage/
+|- rwho/
+|- samba/
+|- squid/
+|- squirrelmail/
+|- up2date/
+|- uucppublic/
+|- vbox/
+tmp/
+tux/
+www/
+yp/
+
+
+
+
+-----------------Links------------------
+
+1. Soft Link
+
+	The data in the original file can be accessed through the special file which is called soft link
+
+	$ ln -s /full/path/of/original/file /full/path/of/soft/link/file
+
+	
+2. Hard Link
+
+	With Hard Link, more than one file name reference the same inode number. Once you
+	`create a directory, you would see the hidden directories “.” and “..” . In this, “.” directory
+	is hard linked to the current directory and the “..” is hard linked to the parent directory.
+	
+	$ ln /full/path/of/original/file /full/path/of/soft/link/file
+
+3. Symbolic Link
+	
+		Symbolic links, or symlinks, are another type of link, which are different from hard links.
+	A symbolic link lets you give a file another name, but doesn't link the file by inode.
+	
+	ls -s foo bar
