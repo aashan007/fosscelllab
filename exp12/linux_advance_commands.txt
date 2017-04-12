@@ -1,0 +1,320 @@
+Curl -
+Transfers data from or to a server, using one of the protocols:
+HTTP, HTTPS, FTP, FTPS, SCP, SFTP, TFTP, DICT, TELNET, LDAP or FILE. (To transfer multiple files use wget or FTP.)
+
+***********EXAMPLE********************************************************
+
+To send your password file to the server, where 'password' is the name of the form-field to which /etc/passwd will be the input:
+
+$ curl -F password=@/etc/passwd www.mypasswords.com
+To retrieve a web page and display in the terminal
+
+$ curl http://www.tutorialspoint.com
+To retrieve a web page and display header information
+
+$ curl http://www.tutorialspoint.com -i
+To retrieve a web page and save to a file.
+
+$ curl http://www.tutorialspoint.com -0 tutorialspoint.html
+To retrieve a web page, or its redirected target
+
+$ curl www.tutorialspoint.com/unix/
+$ curl www.tutorialspoint.com/unix/ --location
+To limit the rate of data transfer to 1 Kilobytes/sec
+
+$ curl http://www.tutorialspoint.com/unix/ --limit-rate 1k -o unix.html
+To download via a proxy server
+
+$ curl -x proxy.example.com:3128 http://www.tutorialspoint.com/unix/
+
+
+WGET
+
+The non-interactive network downloader.
+
+**************************EXAMPLE*****************************************
+
+wget www.archlinux.org/downloads/arch-linux.deb
+
+
+FTP
+
+Internet file transfer program
+
+To see help of all available commands in ftp
+
+
+***************************EXAMPLE*********************************************
+$ ftp
+
+ftp> help
+
+output:
+
+$ ftp
+ftp> help
+Commands may be abbreviated.  Commands are:
+
+!               dir                 mdelete        qc               site
+$              disconnect      mdir              sendport     size
+account     exit                mget            put             status
+append     form               mkdir           pwd            struct
+ascii         get                 mls              quit             system
+bell          glob                mode           quote          sunique
+binary       hash               modtime      recv             tenex
+bye           help               mput           reget            tick
+case          idle                newer          rstatus          trace
+cd             image            nmap           rhelp            type
+cdup          ipany             nlist             rename        user
+chmod       ipv4               ntrans          reset            umask
+close         ipv6               open            restart          verbose
+cr              lcd                 prompt         rmdir            ?
+delete       ls                   passive        runique
+debug       macdef           proxy           send
+
+Example-2:
+
+To Changing FTP Mode to binary or ascii
+
+ftp> ascii
+
+output:
+
+200 Type set to A.
+Example-3:
+
+To Download a file using ftp:
+
+ftp> get README
+
+output:
+200 PORT command successful.
+150 ASCII data connection for README (128.138.242.10,3134) (2881 bytes).
+226 ASCII Transfer complete.
+local: README remote: README
+2939 bytes received in 0.066 seconds (43 Kbytes/s)
+
+Example-4:
+
+To Uploading a file to FTP server: ftp> put README output: 200 PORT command successful.
+150 Opening ASCII mode data connection for README.
+226 Transfer complete.
+local: README remote: README
+1882 bytes sent in 0.0095 seconds (1.9e+02 Kbytes/s)
+Example-5:
+
+To Changing the remote and local directory:
+
+ftp> pwd
+
+257 "/myftpserver" is current directory.
+
+ftp> cd dir1
+
+250 CWD command successful. "/myftpserver/dir1" is current directory.
+
+ftp> pwd
+
+257 "/myftpserver/dir1" is current directory.
+
+Example-6:
+
+Listing the contents of remote directory from FTP
+
+ftp> ls
+
+output:
+
+200 PORT command successful.
+150 ASCII data connection for /bin/ls (128.138.242.10,3133) (0 bytes).
+ElementsofAVS.ps.Z
+
+. . .
+execsumm_tr.ps.Z
+viShortRef.ps.Z
+226 ASCII Transfer complete.
+418 bytes received in 0.043 seconds (9.5 Kbytes/s)
+
+Example-7:
+
+To Uploading multiple files with mput command:
+ftp> mput Makefile
+
+output:
+
+200 PORT command successful.
+150 Opening ASCII mode data connection for Makefile.
+226 Transfer complete.
+local: Makefile remote: Makefile
+1020 bytes sent in 0.0062 seconds (1.6e+02 Kbytes/s)
+
+Example-8:
+
+To Close a FTP connection:
+
+ftp> close
+
+output:
+
+221 Goodbye.
+
+
+
+
+SSH
+
+OpenSSH SSH client (remote login program)
+
+
+****************************EXAMPLE***********************************
+
+ssh 192.122.232.111
+(connecting to a remote server)
+
+
+
+GREP
+
+print lines matching a pattern
+
+***************************EXAMPLE**************************************
+
+Example-1:
+
+To Search for the given string in a single file test.sh
+
+$ cat test.sh
+#!/bin/bash
+fun()
+        echo "This is a test."
+        # Terminate our shell script with success message
+        exit 1
+
+fun()
+
+from above file grep exit:
+
+$ grep "exit" demo_file
+
+output:
+
+        exit 1
+
+Example-2:
+
+To Checking for the given string in multiple files: in this case test.sh and test1.sh
+
+$ cat test.sh
+#!/bin/bash
+fun()
+        echo "This is a test."
+        # Terminate our shell script with success message
+        exit 1
+
+fun()
+
+$ cat test1.sh
+#!/bin/bash
+fun()
+        echo "This is a test1."
+        # Terminate our shell script with success message
+        exit 0
+
+fun()
+
+grep exit in both files test.sh and test1.sh:
+
+$ grep exit test*
+
+output:
+
+test1.sh:       exit 0
+test.sh:        exit 1
+
+
+
+Example-3:
+
+To Case insensitive search using grep -i, added EXIT in test1.sh
+
+$ cat test1.sh
+#!/bin/bash
+fun()
+        echo "This is a test1."
+        # Terminate our shell script with success message, EXIT with 0
+        exit 0
+
+fun()
+
+$ grep exit test1.sh
+test1.sh:       exit 0
+
+$ grep -i exit test*
+
+output:
+
+test1.sh:       # Terminate our shell script with success message, EXIT with 0
+test1.sh:       exit 0
+
+
+two lines with -i option, as its case insensitive.
+
+ Example-4: To Match regular expression in files $ grep "This.*test" test1.sh
+output:
+
+        echo "This is a test1."
+
+Example-5:
+
+* To Checking for full words, not for sub-strings using grep -w
+
+$ grep -w "exit" test.sh
+
+output:
+
+        exit 1
+
+Note:
+
+$ grep -w ex test.sh -> no output, as full word with ex is not in test.sh
+
+for substring search we should not use -w option.
+
+$ grep ex test.sh
+
+       exit 1
+
+Example-6:
+
+To Invert match using grep -v
+
+$ cat test.sh
+#!/bin/bash
+fun()
+        echo "This is a test."
+        # Terminate our shell script with success message
+        exit 1
+
+fun()
+
+
+$ grep -v  exit test.sh
+
+output:
+
+#!/bin/bash
+fun()
+        echo "This is a test."
+        # Terminate our shell script with success message
+
+Note: exit statement is not seen in output.
+
+Example-7:
+
+To print line number of searched string
+
+$ grep -n exit test.sh
+
+output:
+
+5:      exit 1
